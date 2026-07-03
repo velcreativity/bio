@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>ISO14001 DATE_ROLL Hancom Visual Review</title>
+<style>
+  body { font-family: "Malgun Gothic", Arial, sans-serif; line-height: 1.55; margin: 24px; max-width: 1100px; }
+  h1 { font-size: 1.5em; } h2 { margin-top: 28px; font-size: 1.2em; border-bottom: 2px solid #444; padding-bottom: 4px; }
+  table { border-collapse: collapse; width: 100%; margin: 12px 0; font-size: 0.95em; }
+  th, td { border: 1px solid #bbb; padding: 8px; vertical-align: top; text-align: left; }
+  th { background: #f2f2f2; }
+  .block { background: #fff3cd; border: 1px solid #e0b400; padding: 12px; border-radius: 4px; }
+  .info { background: #e7f1fb; border: 1px solid #7fa8d0; padding: 12px; border-radius: 4px; }
+  code, pre { background: #f6f6f6; padding: 2px 5px; border-radius: 3px; }
+  pre { padding: 12px; overflow-x: auto; }
+  .ok { color: #1a7a1a; font-weight: bold; } .bad { color: #b30000; font-weight: bold; }
+  .search-chip { display: inline-block; background: #e8eef7; border: 1px solid #9db6d8; border-radius: 12px; padding: 2px 10px; margin: 3px; font-family: monospace; }
+</style>
+</head>
+<body>
+
+<h1>ISO14001 2026 DATE_ROLL — Hancom 시각 검토 체크리스트</h1>
+
+<div class="block">
+  <b>검토 대상 Draft HWPX:</b><br>
+  <code>C:\ISO2026_AUDIT\reflection_pipeline_v1_iso14001_date_roll_after_clean_hancom_pass\run_20260703_133713\02_DRAFT_WORKSPACE\ISO14001_2026_date_roll_draft_after_clean_hancom_pass.hwpx</code><br><br>
+  <b>범위:</b> 날짜 셀 3개만 추가 기입됨. 기존 EP-901-01의 14개 셀(이미 수락됨)은 그대로 있어야 합니다.<br>
+  <b>읽기 전용으로 열고, Hancom에서 저장하지 마세요.</b>
+</div>
+
+<h2>1. 기입된 날짜 3개 — 기대값 (시계열 근거 포함)</h2>
+<table>
+  <tr><th>양식</th><th>필드</th><th class="ok">기대값</th><th>근거 패턴</th></tr>
+  <tr><td>EP-603-03 환경 직무기술서</td><td>작성일</td><td class="ok">2026.03.20</td><td>2023.03.20 → 2025.03.20 (일자 고정)</td></tr>
+  <tr><td>EP-901-01 모니터링/측정 계획서</td><td>작성일</td><td class="ok">2026.04.04</td><td>2023.04.04 → 2025.04.04 (일자 고정)</td></tr>
+  <tr><td>EP-601-03 환경영향 등록부</td><td>등록일자</td><td class="ok">2026.05.16</td><td>2023.05.18 → 2025.05.16 (최근값 승계)</td></tr>
+</table>
+
+<h2>2. 보류(미기입)로 남아 있어야 하는 날짜 — 비어 있으면 정상</h2>
+<table>
+  <tr><th>양식</th><th>필드</th><th>보류 사유</th></tr>
+  <tr><td>EP-805-01 비상사태 종료보고서</td><td>발생일 / 종료일</td><td>실제 2026년 훈련 실시일 필요 — 사람 입력 대상</td></tr>
+  <tr><td>EP-601-01 환경측면 파악표</td><td>작성일자</td><td>연도별 일자 변동(04.07→04.08) — 확정 필요</td></tr>
+  <tr><td>EP-603-01/02 년간 환경목표 / 실천계획서</td><td>연도 표기</td><td>로케이터 모호 — 다음 단계에서 처리</td></tr>
+</table>
+
+<h2>3. 체크 항목</h2>
+<table>
+  <tr><th style="width:220px">Check</th><th>확인 내용</th><th style="width:190px">결과</th></tr>
+  <tr><td>1. three_dates_correct</td><td>위 1번 표의 3개 날짜가 정확한 셀에, 정확한 값으로 기입됨. 형식(YYYY.MM.DD)이 각 양식의 기존 표기 방식과 일치.</td><td>PASS / FAIL / NEEDS_REVIEW</td></tr>
+  <tr><td>2. deferred_dates_blank</td><td>위 2번 표의 날짜 필드는 모두 비어 있음.</td><td>PASS / FAIL / NEEDS_REVIEW</td></tr>
+  <tr><td>3. prior_14_cells_intact</td><td>EP-901-01의 데이터 2행(소음/진동·폐기물)이 이전 수락 상태 그대로임 — 값·줄바꿈 변화 없음.</td><td>PASS / FAIL / NEEDS_REVIEW</td></tr>
+  <tr><td>4. marker_text_gone</td><td>Ctrl+F: <span class="search-chip">개발원천</span> <span class="search-chip">반영 후보</span> <span class="search-chip">ISO2025</span> <span class="search-chip">candidate</span> 모두 "찾을 수 없음".</td><td>PASS / FAIL / NEEDS_REVIEW</td></tr>
+  <tr><td>5. layout_intact</td><td>세 양식(EP-603-03 / EP-901-01 / EP-601-03)의 표·페이지 흐름 정상.</td><td>PASS / FAIL / NEEDS_REVIEW</td></tr>
+</table>
+
+<div class="info">
+  <b>알아두기 (FAIL 아님):</b> EP-603-03 직무기술서와 EP-601-03 등록부는 현재 <b>날짜만 있고 내용 셀은 비어 있는 상태</b>입니다.
+  이는 단계적 파이프라인의 중간 상태로 정상이지만, <b>최종 2026 패키지는 "날짜만 있고 내용 없는 양식"으로 출고되면 안 됩니다.</b>
+  해당 양식들의 내용 기입(STATIC carry-forward + 사람 입력)이 후속 단계에 예약되어 있는지 확인하세요.
+</div>
+
+<h2>4. Pasteback</h2>
+<pre>
+BEGIN_ISO14001_DATE_ROLL_HANCOM_REVIEW_V1
+{
+  "reviewer": "",
+  "review_date": "2026-07-03",
+  "draft_hwpx": "C:\\ISO2026_AUDIT\\reflection_pipeline_v1_iso14001_date_roll_after_clean_hancom_pass\\run_20260703_133713\\02_DRAFT_WORKSPACE\\ISO14001_2026_date_roll_draft_after_clean_hancom_pass.hwpx",
+  "checks": {
+    "three_dates_correct": "",
+    "deferred_dates_blank": "",
+    "prior_14_cells_intact": "",
+    "marker_text_gone": "",
+    "layout_intact": ""
+  },
+  "decision": "ACCEPT_DATE_ROLL_ZONE1_APPLY / NEEDS_REPAIR / REJECT",
+  "notes": "",
+  "allow_next_automation": false,
+  "allow_final_acceptance": false
+}
+END_ISO14001_DATE_ROLL_HANCOM_REVIEW_V1
+</pre>
+
+</body>
+</html>
