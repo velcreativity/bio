@@ -1,0 +1,12 @@
+__pycache__/
+*.pyc
+
+# R6: raw document binaries never enter git
+*.hwp
+*.hwpx
+*.pdf
+*.doc
+*.docx
+*.xls
+*.xlsx
+*.zip
