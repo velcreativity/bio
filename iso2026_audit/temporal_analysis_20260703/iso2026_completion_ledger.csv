@@ -1,0 +1,26 @@
+item_id,standard,form_code,form_name,fill_class,status,blocking_reason,pass_script_pattern,notes
+F01,ISO14001,EP-901-01,모니터링/측정 계획서,AUTO_STATIC,DONE_VERIFIED,,clean_rebuild,14 cells verified in 2026 clean rebase; Hancom accepted
+F02,ISO14001,DATES_BATCH1,EP-603-03/EP-901-01/EP-601-03 작성일·등록일,AUTO_DATE_ROLL,AWAIT_HUMAN_PASTEBACK,visual pasteback pending,date_roll,3 dates written+verified; render-backed QA green
+F03,ISO14001,EP-901-02,모니터링/측정 Check Sheet,CONFIRM,NOT_STARTED,분리수거함 3-year item must not carry verbatim — needs closure text or documented reason,ep90102_apply,2025 version exists as pattern; 2026 needs human decision on row d
+F04,ISO14001,EP-601-01,환경측면 파악표 1/2+2/2,AUTO_STATIC,NOT_STARTED,,aspect_apply,carry 2025 process rows; org-change check on 공정 list
+F05,ISO14001,EP-601-03,환경영향 등록부 x2,AUTO_CONTENT_EVOLVED,NOT_STARTED,,register_duplication,FORM_DUPLICATE proven in 2025 chain; fix 식품가공 residue (DEFECT)
+F06,ISO14001,EP-602-01,환경법규 등록대장,CONFIRM,NOT_STARTED,law revision dates need external check,legal_register_apply,carry law list; update 개정일 column after human/legal check
+F07,ISO14001,EP-602-02,환경법규 점검표 x2,CONFIRM,NOT_STARTED,same law check as F06,legal_checklist_apply,폐기물관리법+소음진동관리법 checklists
+F08,ISO14001,EP-603-01,년간 환경목표,CONFIRM,NOT_STARTED,2026 목표 3안 권고 needs human approval,goals_apply,recommended: 분리수거함 완료 / 폐기물 5% 절감 / 교육 100%
+F09,ISO14001,EP-603-02,환경방침 실천계획서,CONFIRM,NOT_STARTED,depends on F08 approved goals,action_plan_apply,실적란 stays HUMAN
+F10,ISO14001,EP-603-03,환경 직무기술서 x2,MIXED,NOT_STARTED,body AUTO; 성명/자격 HUMAN,job_desc_apply,duplication x2 like 2025
+F11,ISO14001,EP-805-02,비상사태 훈련 계획서,AUTO_STATIC,NOT_STARTED,,training_plan_apply,proven pattern from 2025 chain; fix 식품제조 residue (DEFECT)
+F12,ISO14001,EP-805-01,비상사태 종료보고서,HUMAN_ONLY,PLACEHOLDER_ONLY,actual 2026 drill dates/results required,none,write [HUMAN_INPUT] markers only
+F13,ISO14001,EDU_PLAN,2026 환경교육훈련 계획서,AUTO_STATIC,NOT_STARTED,,edu_plan_apply,carry curriculum; date-roll header
+F14,ISO14001,EDU_RESULTS,교육 결과 보고서 x3,HUMAN_ONLY,PLACEHOLDER_ONLY,actual 2026 sessions required,none,structure+titles AUTO; participants/results HUMAN
+F15,ISO14001,EP-804/EP-805-ORG,소화기/비상조직 양식,SOURCE_BLANK,DONE_BY_POLICY,original+source blank — stays blank,none,do not fill; verified original-blank
+F16,ISO9001,QP_TEMPLATE_REBUILD,ISO9001 clean template rebuild,INFRA,NOT_STARTED,must start from clean template not June30 candidate,iso9001_clean_rebuild,fresh cell inventory; seed with 6 marker-clean verified rows
+F17,ISO9001,QP-705-01,문서/양식 관리대장,AUTO_DATE_ROLL,BLOCKED_ON_F16,,doc_register_apply,Rev.B column entries; org names update
+F18,ISO9001,QP-501-01/02,년간목표+방침실천 x2,CONFIRM,BLOCKED_ON_F16,2026 목표 권고 3안 needs approval (3-yr repeat risk),goals_apply,경영검토서 body follows same decision
+F19,ISO9001,MGMT_REVIEW,경영 검토서,MIXED,BLOCKED_ON_F16,계획 AUTO; 실적/부적합 HUMAN,mgmt_review_apply,검토기간 2026.01-03 pattern
+F20,ISO9001,QP_EDU,교육훈련계획+결과 x5+자격등록,MIXED,BLOCKED_ON_F16,results HUMAN,edu_apply,include 제품허가팀 (2024 new-team finding)
+F21,ISO9001,QP_AUDIT,심사계획/일정/결과/점검표,MIXED,BLOCKED_ON_F16,결과 HUMAN; add 3 tracking questions,audit_apply,3-team structure; named auditors
+F22,ISO9001,QP_RISK,위험관리 현황+위험성평가,MIXED,BLOCKED_ON_F16,2026 신규 평가 필수 (2024 stale carry-forward defect),risk_apply,never carry 2023 report again
+F23,ISO9001,QP-901-01,성과지표 산출표,CONFIRM,BLOCKED_ON_F16,indicator scope + org names decision,kpi_apply,실측값 HUMAN
+F24,ISO9001,QP-401-01/02,이슈 현황표+이해관계자 요구사항,CONFIRM,BLOCKED_ON_F16,new-org issues need human input,issues_apply,body tables carry; register forms stay per decision
+F25,BOTH,FINAL_ASSEMBLY,full-document parity+layout QA+render+final Hancom review,GATE,BLOCKED_ON_ALL,,final_assembly,FINAL_SUBMISSION_CANDIDATE only; FINAL_ACCEPTED needs explicit human file
