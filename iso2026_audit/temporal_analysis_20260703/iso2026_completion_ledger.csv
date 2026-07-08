@@ -16,8 +16,8 @@ F14,ISO14001,EDU_RESULTS,교육 결과 보고서 x3,HUMAN_ONLY,CLOSED_BY_USER,�
 F15,ISO14001,EP-804/EP-805-ORG,소화기/비상조직 양식,SOURCE_BLANK,DONE_BY_POLICY,original+source blank — stays blank,none,do not fill; verified original-blank
 F16,ISO9001,QP_TEMPLATE_REBUILD,ISO9001 clean template rebuild,INFRA,SUPERSEDED_BY_V4,V4 분리본이 작업 기준본으로 확정 — rebuild 경로 폐기,iso9001_clean_rebuild,F17-F24 unblocked; work on V4 file
 F17,ISO9001,QP-705-01,문서/양식 관리대장,AUTO_DATE_ROLL,DONE_VERIFIED,,doc_register_apply,2026-07-08 검토: 제정내역 수정 금지 확정 — 완료
-F18,ISO9001,QP-501-01/02,년간목표+방침실천 x2,CONFIRM,IN_PROGRESS,신규 목표 1개 추가 방식 확정 — 목표1·2 문안 무수정,goals_apply,2026-07-08 결정: 수정 대신 추가; 3곳 전파 (검토세션 §3)
-F19,ISO9001,MGMT_REVIEW,경영 검토서,MIXED,IN_PROGRESS,검토기간 1년 적용됨 — 세부내용 재맥락화 잔여,mgmt_review_apply,2026-07-08: 나머지 페이지와 1:1 정합 필요 (검토세션 §2)
+F18,ISO9001,QP-501-01/02,년간목표+방침실천 x2,AUTO_CONTENT_EVOLVED,IN_PROGRESS,목표3 "제품허가팀 문서관리 체계 정착" 승인 완료 — 행 추가 실행 대기,goals_apply,2026-07-08: 목표1·2 무수정+목표3 추가; 문서 전체 전파 (검토세션 §3.1)
+F19,ISO9001,MGMT_REVIEW,경영 검토서,MIXED,IN_PROGRESS,검토기간 +1년 롤(월·일 동일) 적용됨 — 세부내용 재맥락화 잔여,mgmt_review_apply,2026-07-08: 나머지 페이지와 1:1 정합 + 목표3 연결 서술 (검토세션 §2/§3.1)
 F20,ISO9001,QP_EDU,교육훈련계획+결과 x5+자격등록,MIXED,PARTIAL,자격등록 DONE (성윤식·김현주); 교육결과 HUMAN,edu_apply,include 제품허가팀 (2024 new-team finding)
 F21,ISO9001,QP_AUDIT,심사계획/일정/결과/점검표,MIXED,IN_PROGRESS,결과보고서 검사결과가 전년과 동일 — 재작성 필요,audit_apply,2026-07-08: 2026 findings 3건 기준 재서술 (검토세션 §4)
 F22,ISO9001,QP_RISK,위험관리 현황+위험성평가,MIXED,DONE_VERIFIED,,risk_apply,우리비앤비→아티젠테라퓨틱스 반영 확인 (완성도 점검 A)
