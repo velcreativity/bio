@@ -1,0 +1,59 @@
+Format: 16:9 widescreen, 24 fps, 180-degree shutter motion blur. Photorealistic live action - no 3D render, no game engine.
+Subject: one figure in a white belted lab coat, dark hair gathered in a low bun at the nape, carrying one red apple in the right hand at hip height. She is 165 cm and 55 kg. She is seen from behind or not at all; her face never turns toward the lens. 100% matches the reference.
+Optics: physical cine lens. Sharp focus throughout, deep depth of field. Motion blur comes from her gait and from mechanical travel only.
+Lighting: practical sources only - recessed linear ceiling fluorescents at 4000K and nothing else. No daylight, no window, no exterior source. White balance holds 4000K for the whole clip. Exposure sits 0.3 stop under key, shadows retain detail.
+Color: cold desaturated institutional palette - gunmetal wall panels, brushed steel, warm-gray floor, off-white coat. One reserved accent, the red of the single apple.
+Surfaces: brushed steel returns soft diffuse specular streaks along its grain direction and holds every scratch, fingerprint, seam and scuff at full sharpness. Cloth wrinkles, flyaway hair and uneven paint all read.
+Physics: gravity, mass, inertia, friction, contact, weight transfer and joint limits all respected. Every footfall lands with her real weight. Props and mechanisms move only from a visible physical cause. The apple stays held in the right hand and swings on its own mass with her gait.
+Continuity: the corridor, the car interior, the handrails, the panel legends and the floor identical across every cut, exactly as the reference frame shows. Consistent appearance, same coat and hair throughout.
+Audio: diegetic environmental sound only - footsteps, room tone, mechanical events. No music, no voice, no subtitles.
+
+SCENE CONTEXT
+She stands at the closed elevator doors at the end of the corridor, presses the call button, and the doors open.
+
+ACTIVE REFERENCES
+@image1 - the first frame. It carries the closed doors, the call plate, the corridor walls and her stance from behind. 100% matches the reference.
+
+LOCATION MAP
+Closed brushed-steel elevator doors filling the centre of frame, meeting at a vertical centre seam. Call plate on the wall to the right of the opening at 1.1 m. Steel corridor walls left and right.
+
+FORMAT MODE
+One continuous shot.
+
+OPTICS
+47-degree FOV, held constant, no drift mid-segment.
+
+CAMERA
+Third person, locked off behind her at 1.5 m eye height. The camera holds still for the whole clip and lets the doors do the moving.
+
+ACTION
+0.00-0.70s: she stands still. One breath lifts and drops her shoulders; the apple hangs steady in the right hand.
+0.70-1.40s: her left arm lifts and the index finger extends to the call plate.
+1.40-1.90s: a full mechanical press - contact, 2-3 mm of travel, a click, then spring-back. The call lamp lights only AFTER the click and stays lit. The arm lowers back to her side.
+1.90-3.10s: the two door leaves slide apart from the centre seam on one rigid guide path, retracting left and right into their pockets with believable mass, accelerating off the stops and decelerating into full open. Brighter car light spills out across the corridor floor and up her coat.
+3.10-4.00s: she takes one step forward toward the open car; the coat hem swings and settles.
+
+PHYSICS
+The door leaves carry real mass and run rather than snap. The button travels 2-3 mm under finger pressure and springs back on release. Her shoulder drops slightly as the arm lowers.
+
+LIGHTING
+Corridor fluorescents at 4000K throughout. As the doors open, the car's own ceiling fixture adds a second 4000K pool that widens across the floor with the gap.
+
+AUDIO
+One breath, cloth movement at the sleeve, one firm button click, door mechanism running and seating, one footfall.
+
+STYLE
+24 fps, 180-degree shutter motion blur, physical cine lens, photorealistic live action.
+
+POSITIVE LOCKS
+The set contains only what the reference frame shows - no added corridors, doors, rooms, furniture or geography beyond the reference. Architecture stays fixed in place for the whole clip; walls, seams, handrails and floor hold their exact positions.
+Brushed steel and painted panels return soft diffuse specular streaks only, and never resolve a mirror image of the figure or the room.
+Exactly one figure and exactly one apple are present, and the counts hold from first frame to last.
+Hands stay anatomically correct, all limbs visible and naturally positioned, five separated fingers, natural joint limits.
+Feet keep full contact with the floor on every step and the floor holds still beneath them.
+Her face stays away from the lens for the entire clip.
+Every legend on the control panel reads exactly as the reference shows it and stays unchanged. No new text, numbers, signage, logos, captions, interface overlays or watermarks appear on any surface.
+Motion runs at variable speed throughout - accelerate, hold, decelerate. Camera and mechanism each move once, in one direction, to a stop.
+One continuous shot; the camera does not cut on its own.
+Skin, cloth and metal keep real material response - subsurface scatter in skin, woven texture in the coat, brushed metal with micro-scratches and uneven specular.
+The call lamp is dark until the click and stays lit afterwards. The doors are closed at the first frame, open once, and stay open for the rest of the clip. The camera holds locked off and still.
