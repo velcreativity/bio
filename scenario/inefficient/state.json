@@ -1,0 +1,97 @@
+{
+  "project_name": "inefficient",
+  "created_at": "2026-08-11T06:15:37.885592",
+  "current_step": 2,
+  "status": "checkpoint_a_pending_user_decision",
+  "engine": {
+    "source": "https://github.com/sero12journey/synopsis-to-scenario",
+    "license": "CC BY-NC-SA 4.0",
+    "note": "엔진 저장소는 이 세션에 attach 불가(cross-tier). 읽기 전용 클론으로 프롬프트만 참조하고, 산출물은 본 저장소에 보관."
+  },
+  "steps": {
+    "0": {
+      "name": "critique",
+      "agent": "analyst",
+      "status": "completed",
+      "version": 1,
+      "output": "output/step_00_critique.md"
+    },
+    "1": {
+      "name": "act_structure",
+      "agent": "analyst",
+      "status": "completed",
+      "version": 1,
+      "output": "output/step_01_act_structure.md"
+    },
+    "2": {
+      "name": "beat_sheet",
+      "agent": "analyst",
+      "status": "completed",
+      "version": 1,
+      "output": "output/step_02_beat_sheet.md"
+    },
+    "3": {
+      "name": "image_system",
+      "agent": "writer",
+      "status": "pending",
+      "version": 0
+    },
+    "4": {
+      "name": "characters",
+      "agent": "writer",
+      "status": "pending",
+      "version": 0
+    },
+    "5": {
+      "name": "scene_list",
+      "agent": "writer",
+      "status": "pending",
+      "version": 0
+    },
+    "6": {
+      "name": "treatment",
+      "agent": "writer",
+      "status": "pending",
+      "version": 0
+    },
+    "7": {
+      "name": "first_draft",
+      "agent": "writer",
+      "status": "pending",
+      "version": 0
+    },
+    "8": {
+      "name": "visual_revision",
+      "agent": "critic+writer",
+      "status": "pending",
+      "version": 0
+    }
+  },
+  "checkpoints": {
+    "A": {
+      "after_step": 2,
+      "status": "conditional_pass",
+      "revision_count": 0,
+      "max_revisions": 3,
+      "output": "output/checkpoint_a_review.md",
+      "blocking_questions": [
+        "STEP 0 확인질문 1 — 인간 인물화(A) vs 익명성 유지(B). 미확정 시 STEP 3 진입 불가",
+        "STEP 0 확인질문 2 — 칩 제거의 대가(인간성 상실 딜레마) 채택 여부",
+        "체크포인트 A 권고 1·2·3 반영한 STEP 2 v2 작성 여부"
+      ]
+    },
+    "B": {
+      "after_step": 4,
+      "status": "pending",
+      "revision_count": 0,
+      "max_revisions": 3
+    },
+    "C": {
+      "after_step": 6,
+      "status": "pending",
+      "revision_count": 0,
+      "max_revisions": 3
+    }
+  },
+  "revision_log": []
+}

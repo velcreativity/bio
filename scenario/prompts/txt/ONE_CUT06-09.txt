@@ -1,0 +1,52 @@
+■ 1회 = [G]+[L]+컷1개. Seedance 2.0 / 16:9 / 1080p / std / 4s / audio off
+first_frame 06=복도판 07=S7 08=S8 09=차내판, CUT08만 last_frame=차내판
+07/08/09 4.0초 전체, 06만 3.0초 컷 가능
+
+[G]
+24fps, 180-degree shutter. Photoreal live action, no 3D render.
+One figure in a white belted lab coat, dark hair in a low bun, one red apple in the right hand, 165cm 55kg, seen from behind or not at all.
+Physical cine lens, sharp focus throughout, deep depth of field. FOV constant, no drift. Motion blur from gait and mechanism.
+Practical light only: recessed 4000K ceiling fluorescents, nothing else. No daylight. Exposure 0.3 under key, shadows retain detail.
+Cold desaturated gunmetal, brushed steel, warm-gray floor, off-white coat; one accent, the red apple.
+Every scratch, seam, scuff, wrinkle and flyaway hair holds full sharpness.
+Gravity, mass, inertia, friction, contact and joint limits respected; props move only from visible physical cause.
+
+[L]
+The set contains only what the reference shows; walls, handrails and floor hold their exact positions, nothing added.
+Brushed steel returns soft diffuse specular streaks, never a mirror image.
+Exactly one figure and one apple; counts hold first frame to last.
+Hands anatomically correct, five separated fingers. Feet keep full contact; the floor holds still.
+Her face stays away from the lens. Panel legends read exactly as the reference; no new text, numbers, signage or logos appear.
+Variable speed - accelerate, hold, decelerate. Camera and mechanism each move once, one direction, to a stop.
+One continuous shot; the camera does not cut on its own.
+
+[CUT06 CORRIDOR] 47-deg FOV. Third person following from behind at 1.5m, fixed distance, smooth path, level horizon, ending on the doors.
+0.00-1.60s four strides away at 4 km/h; the coat hem swings behind each leg, light pools cross her shoulders.
+1.60-2.80s the doors resolve ahead; strides hold pace.
+2.80-4.00s strides shorten to a stop an arm's length from the doors; coat and apple carry forward, then settle.
+LOCK: doors stay fully closed; she never turns back toward the lens.
+
+[CUT07 CALL BUTTON] 47-deg FOV. Third person, locked off behind her at 1.5m, still for the whole clip.
+0.00-1.40s still, one breath lifts and drops her shoulders; her left arm lifts, index finger to the call plate right of the doors.
+1.40-1.90s full mechanical press - contact, 2-3mm travel, a click, spring-back. The lamp lights only AFTER the click. The arm lowers.
+1.90-3.10s the two leaves slide apart from the centre seam on one guide path with real mass, accelerating off the stops, decelerating into full open; car light spills out.
+3.10-4.00s one step toward the open car; the coat hem settles.
+LOCK: lamp dark until the click, lit after. Doors closed at frame one, open once, stay open.
+
+[CUT08 SELECT B1] 63-deg FOV. Embodied first person at 1.55m, centre of the car; yaws right once, back left once, then holds.
+0.00-1.30s one breath, then a single 25-degree yaw right brings the button column into frame.
+1.30-2.00s the left hand rises into lower right frame, index finger to the B1 button, third square down.
+2.00-2.50s full mechanical press - contact, 2-3mm travel, a click, spring-back. B1 lights amber only AFTER the click. The hand withdraws.
+2.50-3.15s a single 25-degree yaw left squares on the doorway.
+3.15-4.00s the two leaves run toward each other at matched speed and meet at the centre seam with one soft gasket compression; corridor light narrows to a seam and goes out.
+LOCK: gaze turns right once, returns left once, still between. B1 unlit until the click, lit after; others unlit. Doors open at frame one, close once.
+
+[CUT09 DESCENT] 63-deg FOV. Embodied first person at 1.55m, locked in place, moving only with the car.
+0.00-0.60s the car takes up its load; the whole frame drops a few millimetres and recovers once.
+0.60-3.20s a continuous fine vibration as the car descends; the fixture reflection creeps along the door grain; the apple trembles at the lower edge.
+3.20-4.00s the vibration steadies into a constant hum; the frame holds.
+LOCK: doors stay fully closed. Indicator and legends hold exactly the reference characters. B1 stays lit amber. Only vibration moves in frame.
+
+[스틸 접미] Photoreal still, cold desaturated gunmetal and brushed steel, 4000K fluorescents only, warm-gray floor, sharp focus, no daylight.
+[S7] A figure in a white belted lab coat, dark hair in a low bun, back to the lens an arm's length from closed elevator doors at the end of a narrow steel corridor, one red apple in the right hand, face not visible. Call plate right of the doors at 1.1m, lamp unlit. + 접미
+[S8] Elevator car interior from eye height 1.55m, centre of the car, facing open brushed-steel doors, dim corridor beyond. Gunmetal panels, a steel handrail 0.9m each side. Right-wall column: indicator, call icon, square buttons reading 2, 1, B1, B2 downward, two door buttons, all legends unlit. One 4000K fixture above the door header. + 접미

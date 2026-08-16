@@ -1,0 +1,47 @@
+■ 1회 = [G]+[L]+컷1개. Seedance 2.0 / 16:9 / 1080p / std / 4s / audio off
+first_frame 10=복도판, 11=S11 생성, 12=테스트실판
+10>11>12. 세 컷 모두 4.0초 전체 사용
+※ 이 씬은 POV. 엘리베이터 씬(CUT06-09)의 3인칭 GLOBAL과 별개다.
+
+[G]
+24fps, 180-degree shutter. Photoreal live action, no 3D render.
+Strict embodied POV at eye height 1.64 m. The walker never appears; her ivory cuff, clipboard and one red apple may enter only at the lower edge, carried by gait and inertia, never fixed like a HUD.
+Physical cine lens, sharp focus throughout, deep depth of field. FOV constant, no drift. Motion blur from gait alone.
+Practical light only: recessed ceiling fluorescent panels at 4000K. White balance holds 4000K. Exposure 0.3 under key, shadows retain detail.
+Light-gray upper wall panels over a navy-blue lower wainscot with a stainless trim line, warm-gray floor, one yellow guide line painted on the floor.
+Every scratch, seam, scuff, wrinkle and flyaway hair holds full sharpness.
+Gravity, mass, inertia, friction, contact and joint limits respected; objects move only from visible physical cause.
+
+[L]
+The set contains only what the reference shows; walls, wainscot, trim, doors and the yellow line hold their exact positions, nothing added and no extra corridor.
+Painted panels, stainless trim and glass return soft diffuse specular only, never a mirror image of the room.
+The yellow floor line keeps the exact width, colour and path the reference shows.
+Feet keep full contact with the floor and the floor holds still beneath them.
+Hands anatomically correct, five separated fingers, natural joint limits.
+Ceiling fixtures hold their spacing; no new text, numbers, signage or logos appear on any surface.
+Variable speed - accelerate, hold, decelerate. The camera moves only as the walking body moves it and holds level.
+One continuous shot; the camera does not cut on its own.
+
+[CUT10 FOLLOW THE LINE] 63-deg FOV. POV walking forward along the yellow line, level horizon, ending with the bend in the line centred in the lower frame.
+0.00-0.60s weight shifts and the first step leaves the floor; the frame lifts and settles once.
+0.60-2.40s three strides forward at 4 km/h tracking the yellow line; ceiling fixtures pass overhead in an even rhythm and their pools cross the floor.
+2.40-3.40s the bend in the line enters the lower frame; strides progressively shorten and the body decelerates.
+3.40-4.00s one stabilising step, then near-still breathing.
+LOCK: the walk runs forward only, in one direction, to a stop. No turn begins in this clip.
+
+[CUT11 RIGHT TURN] 63-deg FOV. POV. One curved walking path through a real 90-degree turn to the right, yaw easing to a stop, ending with the open glass doorway centred in frame.
+0.00-0.80s one step forward as the yaw begins; the yellow line starts to swing across the lower frame.
+0.80-2.60s a continuous curved 90-degree right turn carried by two walking steps, feet placing and pivoting against the floor, horizon level throughout.
+2.60-3.40s the yaw eases to a stop; the open glass doorway and the room beyond settle into the centre of frame.
+3.40-4.00s one stabilising step forward.
+LOCK: the turn runs once, to the right, to a stop, and never reverses. The yellow line stays a single unbroken painted line.
+
+[CUT12 COGNITIVE TEST] 63-deg FOV. POV, standing still in the corridor at the open glass doorway, holding through the whole clip.
+Beyond the doorway: one technician in navy coveralls with glasses and a low ponytail crouches on her heels, 165 cm, her near hand raised open at shoulder height as a hold signal; one chimpanzee stands quadrupedal facing her, shoulder about 0.9 m at the withers and 50 kg, one forelimb extended to a stainless test rig; one small yellow token rests on the rig tray.
+0.00-0.80s the last of the approach settles into a stop; one breath.
+0.80-2.20s the chimpanzee pushes the yellow token along the tray into its matching recess - front knuckles load first, contact holds without sliding, the token seats with one small click.
+2.20-3.20s the raised hand holds, then lowers to the knee; the chimpanzee withdraws the forelimb and returns to a four-point stance.
+3.20-4.00s both settle; only breathing and minute eye motion remain.
+LOCK: exactly one technician, one chimpanzee and one token, and the counts hold first frame to last. The chimpanzee stays quadrupedal and never stands upright. It takes one action only and does not reach a second time. The glass door stays open and still. The card reader keeps the state the reference shows. The token moves only while a hand is on it.
+
+[S11 스틸] Photoreal still. Interior corridor from eye height 1.64 m, mid-turn, the walkway opening to the right toward an open stainless-framed glass doorway with a bright frosted observation window beyond. Light-gray upper wall panels over a navy-blue lower wainscot with a stainless trim line, warm-gray floor, one yellow guide line running across the floor and turning right. Recessed ceiling fluorescent panels at 4000K only, no daylight. Cold desaturated institutional palette, sharp focus throughout, deep depth of field.

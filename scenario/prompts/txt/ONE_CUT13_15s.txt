@@ -1,0 +1,59 @@
+■ 단일 15초 클립. Seedance 2.0 / 16:9 / 1080p / mode=std / duration=15 / audio off
+  start_frame = §S13 으로 생성 · last_frame = 테스트실판(침팬지 코너 섭취 + 연구원A 카메라 응시)
+  POV, 눈높이 1.64m. 아래 [G]+[L]+[CUT13] 전체를 한 덩어리로 붙여넣는다.
+
+■ 대사는 생성하지 않는다. 연구원 A는 "말하는 연기"만 하고 한국어는 후반 더빙.
+  원문 90음절(≈16.4초)은 15초에 물리적으로 안 들어가 아래로 트림했다.
+  대사1  0.8-6.0s  "표본조사는 이 친구가 마지막입니다. 자료 정리되는 대로 이식 들어갑니다."   30음절
+  대사2  9.2-14.2s "칩은 실험군 수만큼 확보됐습니다. 대조군은 박사님께서 직접 하시는 걸로."   30음절
+
+[G]
+24fps, 180-degree shutter. Photoreal live action, no 3D render.
+Strict embodied POV at eye height 1.64 m. The walker never appears except her own right hand and ivory cuff, which enter from the lower edge only when she deliberately raises them.
+Two present figures. One technician in navy coveralls, clear safety glasses, dark hair in a low ponytail, 165 cm, a phone in her left hand. One chimpanzee, 50 kg, about 0.9 m at the withers on all fours and about 0.8 m tall seated. 100% matches the reference.
+Physical cine lens, 63-degree FOV held constant, no drift. Sharp focus throughout, deep depth of field.
+Practical light only: recessed ceiling fluorescent panels at 4000K plus one bright frosted observation window high on the far wall. White balance holds 4000K. Exposure 0.3 under key, shadows retain detail.
+Light-gray wall panels with a stainless trim line, warm-gray floor, navy coveralls, brushed steel test rig. One reserved accent, the red of the single apple.
+Every scratch, seam, scuff, cloth wrinkle and flyaway hair holds full sharpness. Natural skin texture, subtle imperfections; irregular fur direction.
+Gravity, mass, inertia, friction, contact and joint limits respected; objects move only from a visible physical cause.
+
+[L]
+The set contains only what the reference shows; walls, trim, vent grille, window, door and the test rig hold their exact positions, nothing added.
+Painted panels, stainless and glass return soft diffuse specular only, never a mirror image of the room.
+Exactly one technician, one chimpanzee, one apple, one yellow token and one phone; the counts hold first frame to last.
+The chimpanzee stays quadrupedal when moving, loading front knuckles first, and sits only to eat. It never walks upright.
+The yellow token stays on the rig tray untouched for the whole clip.
+Hands anatomically correct, five separated fingers, natural joint limits. Feet and knuckles keep full contact; the floor holds still.
+The technician stays 165 cm and the chimpanzee stays its own size; neither drifts toward the other's height.
+Variable speed - accelerate, hold, decelerate. Each listed movement runs once, in one direction, to a stop, in the order given.
+One continuous shot; the camera does not cut on its own. No text, numbers, signage or logos appear on any surface.
+
+[CUT13 THE LAST SPECIMEN — one continuous 15-second take]
+POV entering the test room and stopping about 2.5 m from the technician, then holding locked for the rest of the clip. The technician stands at the right of frame, the test rig at the left, the left corner of the room visible past the rig.
+
+0.00-2.00s two unhurried steps forward; the room opens, strides shorten and the body decelerates to a stop. The chimpanzee lifts its head from the rig and holds its gaze on the camera.
+0.80-6.00s the technician speaks steadily to the camera, mouth and jaw moving in natural conversational cadence, small head movements on stressed phrases, one low hand gesture.
+3.20-4.00s the chimpanzee's gaze drops from face height to hand height, about 25 degrees down, and stays there.
+4.00-4.80s the right hand rises from the lower edge into the lower centre of frame, one red apple held between fingers and thumb.
+4.80-5.80s the hand carries the apple 40 cm to the left at a deliberate pace; the chimpanzee's head and eyes follow it, its feet planted.
+5.80-6.90s the hand carries the apple 80 cm back to the right at the same pace; the head follows the whole way.
+6.90-7.40s the hand draws back and releases the apple in a low underhand toss.
+7.40-8.00s the apple travels a short flat arc across about 2 m, rising slightly then falling; the hand withdraws to the lower edge.
+8.00-8.50s the chimpanzee lifts one forelimb, closes its hand on the apple and brings it to its chest; the catch rocks its upper body back a few centimetres.
+8.50-10.60s it turns and knuckle-walks to the left corner, the apple held against its chest in one hand, front knuckles loading first at every step.
+10.60-11.40s it lowers into a seated posture in the corner, back to the wall, and brings the apple to its mouth.
+9.20-9.80s the technician raises the phone to chest height and tilts her head down to it.
+9.80-14.20s she speaks steadily while reading, eyes tracking down the screen, thumb moving once, head staying down.
+11.40-15.00s the chimpanzee eats in slow repeated bites, jaw working, one hand turning the fruit.
+13.40-14.20s the frame tilts down 8 degrees and returns - one slow acknowledging nod, eased at both ends.
+14.20-14.70s she lowers the phone to her side, the arm settling against her thigh.
+14.70-15.00s she raises her head and turns her eyes to the camera, holding a level, unhurried look.
+
+LOCK: the camera walks forward once to a stop and then stays locked for the rest of the clip; the only camera movement after 2.00s is the single nod.
+LOCK: the apple stays in the raised hand until 7.40s, is caught once at 8.50s, and stays in the chimpanzee's grip for the rest of the clip.
+LOCK: the apple moves left once and right once, each a single continuous move; it never returns to the hand after the toss.
+LOCK: the chimpanzee's gaze drops once and stays at hand height; it travels toward the corner only and never back toward the rig.
+LOCK: the technician speaks, then reads, then looks up - once each, in that order. She keeps her eyes on the phone from 9.20s to 14.20s and looks up only at the end.
+
+[S13 스틸 — start_frame]
+Photoreal still, 63-degree FOV from eye height 1.64 m. A test room seen from just inside the doorway, about 4 m back. A technician in navy coveralls with clear safety glasses and a low ponytail stands at the right of frame, a phone held in her left hand at her side, facing the lens. One chimpanzee stands quadrupedal at a brushed steel test rig in the left of frame, head turned toward the lens, one yellow token resting on the rig tray. Light-gray wall panels with a stainless trim line, warm-gray floor, bright frosted observation window high on the far wall, vent grille. Recessed 4000K ceiling panels only. Cold desaturated institutional palette, sharp focus throughout, deep depth of field.
