@@ -10,3 +10,6 @@ __pycache__/
 *.xls
 *.xlsx
 *.zip
+
+# bridge: local agent config stays on the PC
+bridge/config.json

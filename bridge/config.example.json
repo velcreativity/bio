@@ -1,0 +1,16 @@
+{
+  "repo": "..",
+  "branch": "claude/charming-einstein-ds96tj",
+  "workspace": "..",
+  "projects": {
+    "bio": "..",
+    "my-app": "C:/work/my-app"
+  },
+  "worktree_root": "~/.codex_bridge/worktrees",
+  "state_file": "~/.codex_bridge/state.json",
+  "poll_sec": 30,
+  "models": {"general": "claude-opus-5-5", "coding": "claude-sonnet-5-5", "effort": "high"},
+  "review": {"enabled": true, "max_fix_rounds": 2, "fixer": "claude", "auto_apply": false},
+  "harvest": {"enabled": true, "sessions_dir": "~/.codex/sessions", "interval_sec": 600},
+  "shell": {"enabled": false, "allow": ["git", "python", "py", "pytest", "npm", "node"]}
+}
