@@ -37,20 +37,36 @@ STRONG_CODE_WORDS = re.compile(
 )
 
 
-def is_coding(paths=(), prompt="", kind=None):
-    """kind ('code'|'general') wins; else changed paths; else prompt keywords (default: general)."""
-    if kind in ("code", "coding"):
-        return True
-    if kind == "general":
-        return False
-    paths = list(paths)
-    if paths:
-        code = sum(1 for p in paths if os.path.splitext(p)[1].lower() in CODE_EXT)
-        return code * 2 >= len(paths)
+def _paths_coding(paths):
+    code = sum(1 for p in paths if os.path.splitext(p)[1].lower() in CODE_EXT)
+    return code * 2 >= len(paths)
+
+
+def _keywords_coding(prompt):
     prompt = prompt or ""
     if GENERAL_WORDS.search(prompt):
         return bool(STRONG_CODE_WORDS.search(prompt))
     return bool(CODE_WORDS.search(prompt))
+
+
+def _kind_coding(kind):
+    """True/False for an explicit kind, None when the kind does not decide."""
+    if kind in ("code", "coding"):
+        return True
+    if kind == "general":
+        return False
+    return None
+
+
+def is_coding(paths=(), prompt="", kind=None):
+    """kind ('code'|'general') wins; else changed paths; else prompt keywords (default: general)."""
+    by_kind = _kind_coding(kind)
+    if by_kind is not None:
+        return by_kind
+    paths = list(paths)
+    if paths:
+        return _paths_coding(paths)
+    return _keywords_coding(prompt)
 
 
 def pick_model(models, coding):
@@ -136,6 +152,66 @@ def _parse_claude_json(stdout):
         except ValueError:
             pass
     return None, env
+
+
+# ----------------------------------------------------------------- classify
+# The user cannot phrase requests in technical terms, so Claude (not keywords) judges whether a task is coding.
+
+CLASSIFY_SCHEMA = {
+    "type": "object",
+    "properties": {
+        "coding": {"type": "boolean"},
+        "reason": {"type": "string"},
+    },
+    "required": ["coding", "reason"],
+}
+
+CLASSIFY_PROMPT = """아래 요청을 처리하려면 누군가 프로그램 코드(스크립트, API 호출, 자동화, 스크립트 안의 ffmpeg 명령 등)를 작성하거나 수정해야 하는가?
+
+사용자는 기술 용어로 말하지 않는다. 쓰인 단어가 아니라 작업이 실제로 요구하는 것으로 판단하라.
+- coding=true: 프로그램/스크립트/자동화/API 연동을 새로 만들거나 고쳐야 끝나는 작업.
+- coding=false: 기획, 글쓰기(대본/스크립트는 시나리오라는 뜻), 문서 작성·정리, AI 도구에 넣을 프롬프트 작성, 도구를 손으로 직접 사용하는 작업.
+reason에는 판단 근거를 한 문장으로 적어라. 결과는 JSON 스키마에 맞춰서만 출력.
+
+=== 요청 ===
+{prompt}
+"""
+
+
+def classify_with_claude(cfg, prompt, timeout=600):
+    """Ask Claude whether the request needs program code. Returns (bool|None, reason); None on any failure."""
+    model, effort = pick_model(cfg.get("models"), False)
+    cmd = _claude_cmd(cfg) + [
+        "-p", "--model", model, "--effort", effort,
+        "--output-format", "json",
+        "--json-schema", json.dumps(CLASSIFY_SCHEMA),
+        "--tools", "",
+        "--no-session-persistence",
+    ]
+    try:
+        p = subprocess.run(cmd, input=CLASSIFY_PROMPT.format(prompt=prompt or ""), capture_output=True,
+                           text=True, encoding="utf-8", errors="replace", timeout=timeout)
+    except (OSError, subprocess.TimeoutExpired) as e:
+        return None, "%s: %s" % (type(e).__name__, e)
+    parsed, _ = _parse_claude_json(p.stdout)
+    if p.returncode != 0 or not isinstance(parsed, dict) or not isinstance(parsed.get("coding"), bool):
+        return None, "claude classify failed (returncode=%s)" % p.returncode
+    return parsed["coding"], str(parsed.get("reason") or "")
+
+
+def decide_coding(cfg, paths=(), prompt="", kind=None):
+    """Like is_coding, but an ambiguous request (no kind, no changed paths) is judged by Claude.
+    Returns (coding, source) with source in kind | paths | claude: <reason> | keywords."""
+    by_kind = _kind_coding(kind)
+    if by_kind is not None:
+        return by_kind, "kind"
+    paths = list(paths)
+    if paths:
+        return _paths_coding(paths), "paths"
+    coding, reason = classify_with_claude(cfg, prompt)
+    if coding is not None:
+        return coding, "claude: " + reason
+    return _keywords_coding(prompt), "keywords"
 
 
 def review(cfg, task, audit_report, diff, last_message, coding, timeout=1800):

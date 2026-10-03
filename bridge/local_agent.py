@@ -285,7 +285,8 @@ class Agent:
     def _supervise(self, job_id, ctx, timeout, start_round=0):
         """Review -> fix loop on a worktree. Mutates and returns ctx."""
         rv = self.cfg["review"]
-        coding = supervisor.is_coding(ctx["audit"]["changed_paths"], ctx["task"], ctx.get("kind"))
+        coding, ctx["coding_source"] = supervisor.decide_coding(
+            self.cfg, ctx["audit"]["changed_paths"], ctx["task"], ctx.get("kind"))
         ctx["coding"] = coding
         ctx["model"], ctx["effort"] = supervisor.pick_model(self.cfg.get("models"), coding)
         if not rv.get("enabled"):
@@ -325,7 +326,7 @@ class Agent:
 
     def _result(self, job_id, ctx):
         out = {k: ctx.get(k) for k in ("project", "branch", "worktree", "base", "session_id", "state",
-                                       "coding", "model", "effort", "fix_rounds", "review")}
+                                       "coding", "coding_source", "model", "effort", "fix_rounds", "review")}
         out["head"] = jq.git(ctx["worktree"], "rev-parse", "HEAD").stdout.strip()
         out["audit_verdict"] = ctx["audit"]["verdict"]
         out["audit_findings"] = ctx["audit"]["findings"][:30]
@@ -374,7 +375,8 @@ class Agent:
         if not os.path.isdir(wt):
             raise ValueError("worktree gone (applied or discarded): " + wt)
         task = prev["args"]["prompt"]
-        coding = supervisor.is_coding(r.get("changed_paths", []), task, prev["args"].get("kind"))
+        coding, coding_source = supervisor.decide_coding(
+            self.cfg, r.get("changed_paths", []), task, prev["args"].get("kind"))
         fixer = a.get("fixer", self.cfg["review"].get("fixer", "claude"))
         review_like = {"decision": "FIX", "summary": "cloud review", "issues": a.get("issues", []),
                        "fix_instructions": a["instructions"]}
@@ -393,7 +395,7 @@ class Agent:
         if a.get("rereview", True):
             self._supervise(job_id, ctx, timeout)
         else:
-            ctx.update(state="needs_review", review=None, fix_rounds=0, coding=coding)
+            ctx.update(state="needs_review", review=None, fix_rounds=0, coding=coding, coding_source=coding_source)
             ctx["model"], ctx["effort"] = supervisor.pick_model(self.cfg.get("models"), coding)
         res = self._result(job_id, ctx)
         res["fixes_job"] = a["job_id"]

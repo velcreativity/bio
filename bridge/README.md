@@ -37,8 +37,9 @@ Codex가 한 모든 작업을 **검토·검열한 뒤 수정·보완**해서 승
 
 - 일반 작업(문서, ISO 기록, 기획, 검토, Codex 감독): **`claude-opus-5-5`, effort `high`**
 - 코딩 작업: **`claude-sonnet-5-5`, effort `high`**
-- 로컬 감독 루프는 변경 파일 확장자(코드 파일이 절반 이상이면 코드)나 작업의 `kind`(code/general),
-  또는 요청 문구로 자동 판정한다(`supervisor.is_coding`). 판정 결과는 각 보고서의 `model`/`effort`에 기록된다.
+- 코딩 여부는 **사용자의 표현이 아니라 Claude가 판단**한다(`supervisor.decide_coding`):
+  작업의 `kind` → 실제로 바뀐 파일(코드 파일이 절반 이상이면 코딩) → 둘 다 없으면 Claude(Opus)가 요청을 읽고 판정
+  → Claude 호출이 실패할 때만 키워드 규칙. 판정 근거는 결과의 `coding_source`에 남는다. 판정 결과는 각 보고서의 `model`/`effort`에 기록된다.
 - 대화형 Claude Code에도 같은 정책을 적용하려면 다음을 실행한다.
   ```
   python bridge/claude_profile/install_profile.py --user          # 이 PC의 모든 프로젝트

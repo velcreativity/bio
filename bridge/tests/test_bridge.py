@@ -109,6 +109,44 @@ class AuditTests(unittest.TestCase):
         self.assertTrue(supervisor.is_coding([], "대본 기반으로 Runway API 호출 코드 작성"))
 
 
+FAKE_CLASSIFY_CLAUDE = textwrap.dedent(r'''
+    import json, sys
+    args = sys.argv[1:]
+    sys.stdin.read()
+    if "--json-schema" in args and "coding" in args[args.index("--json-schema") + 1]:
+        print(json.dumps({"type": "result", "result": "",
+                          "structured_output": {"coding": True, "reason": "needs API automation"}}))
+    else:
+        sys.exit(2)
+''')
+
+
+class DecideCodingTests(unittest.TestCase):
+    def test_claude_classifies_ambiguous_request(self):
+        d = tempfile.mkdtemp()
+        script = os.path.join(d, "fake_claude.py")
+        with open(script, "w") as f:
+            f.write(FAKE_CLASSIFY_CLAUDE)
+        cfg = {"claude_cmd": [sys.executable, script]}
+        coding, source = supervisor.decide_coding(cfg, [], "유튜브 영상 30개 자동으로 만들어줘")
+        self.assertTrue(coding)
+        self.assertTrue(source.startswith("claude"), source)
+        self.assertIn("needs API automation", source)
+
+    def test_falls_back_to_keywords_when_claude_fails(self):
+        cfg = {"claude_cmd": [sys.executable, "-c", "import sys; sys.exit(1)"]}
+        self.assertEqual(supervisor.decide_coding(cfg, [], "영상 대본 써줘"), (False, "keywords"))
+        cfg = {"claude_cmd": ["/nonexistent/claude-binary"]}
+        self.assertEqual(supervisor.decide_coding(cfg, [], "영상 대본 써줘"), (False, "keywords"))
+
+    def test_paths_and_kind_skip_claude(self):
+        cfg = {"claude_cmd": ["/nonexistent/claude-binary"]}  # would fall back to "keywords" if called
+        self.assertEqual(supervisor.decide_coding(cfg, ["a.py"], "x"), (True, "paths"))
+        self.assertEqual(supervisor.decide_coding(cfg, ["a.md"], "x"), (False, "paths"))
+        self.assertEqual(supervisor.decide_coding(cfg, [], "x", "code"), (True, "kind"))
+        self.assertEqual(supervisor.decide_coding(cfg, [], "x", "general"), (False, "kind"))
+
+
 class EndToEnd(unittest.TestCase):
     def setUp(self):
         self.tmp = tempfile.mkdtemp()
