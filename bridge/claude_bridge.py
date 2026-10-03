@@ -9,6 +9,7 @@
     python bridge/claude_bridge.py hancom <op> --src a.hwpx [--dst b.hwpx] --wait
     python bridge/claude_bridge.py status [<job_id>]
     python bridge/claude_bridge.py logs [--flagged]            # harvested Codex sessions (all projects)
+    python bridge/claude_bridge.py usage [--last N]            # Claude vs Codex token use per job
 
 Uses the current git checkout and branch as the transport (see jobqueue.py).
 """
@@ -134,6 +135,67 @@ def cmd_logs(repo, flagged_only):
                                                       i["changed_paths"], i["last_message"][:100].replace("\n", " ")))
 
 
+def _n(v):
+    return v if isinstance(v, (int, float)) and not isinstance(v, bool) else 0
+
+
+def summarize_usage(jobs):
+    """Per-job rows and totals of Claude vs Codex token use. Jobs without result.usage are skipped."""
+    rows = []
+    tot = dict.fromkeys(("claude_calls", "claude_in", "claude_out", "claude_cache_read", "claude_cost_usd",
+                         "codex_in", "codex_out"), 0)
+    for job in jobs:
+        u = (job.get("result") or {}).get("usage")
+        if not isinstance(u, dict):
+            continue
+        c, x = u.get("claude"), u.get("codex")
+        c, x = c if isinstance(c, dict) else {}, x if isinstance(x, dict) else {}
+        row = {"id": job.get("id"), "type": job.get("type"),
+               "claude_calls": _n(c.get("calls")), "claude_in": _n(c.get("input_tokens")),
+               "claude_out": _n(c.get("output_tokens")), "claude_cache_read": _n(c.get("cache_read_input_tokens")),
+               "claude_cost_usd": _n(c.get("cost_usd")),
+               "codex_in": _n(x.get("input_tokens")), "codex_out": _n(x.get("output_tokens"))}
+        rows.append(row)
+        for k in tot:
+            tot[k] += row[k]
+    claude_tok = tot["claude_in"] + tot["claude_out"]
+    codex_tok = tot["codex_in"] + tot["codex_out"]
+    both = claude_tok + codex_tok
+    return {"rows": rows, "totals": tot, "claude_tokens": claude_tok, "codex_tokens": codex_tok,
+            "codex_share": codex_tok / both if both else None,
+            "claude_share": claude_tok / both if both else None}
+
+
+def cmd_usage(repo, last=None):
+    jobs = []
+    for jid in jq.list_jobs(repo, "done"):
+        j = jq.read_job(repo, "done", jid)
+        if j.get("type") in ("codex.exec", "codex.fix"):
+            jobs.append(j)
+    s = summarize_usage(jobs)
+    rows = s["rows"][-last:] if last else s["rows"]
+    if last:
+        s = summarize_usage([j for j in jobs if j.get("id") in {r["id"] for r in rows}])
+    if not rows:
+        print("no jobs with usage data yet")
+        return s
+    print("%-26s %-11s %6s %10s %10s %10s %9s %10s %10s" % (
+        "job", "type", "calls", "cl_in", "cl_out", "cl_cache", "cl_usd", "cx_in", "cx_out"))
+    for r in rows:
+        print("%-26s %-11s %6d %10d %10d %10d %9.4f %10d %10d" % (
+            r["id"], r["type"], r["claude_calls"], r["claude_in"], r["claude_out"], r["claude_cache_read"],
+            r["claude_cost_usd"], r["codex_in"], r["codex_out"]))
+    t = s["totals"]
+    print("%-26s %-11s %6d %10d %10d %10d %9.4f %10d %10d" % (
+        "TOTAL (%d jobs)" % len(rows), "", t["claude_calls"], t["claude_in"], t["claude_out"],
+        t["claude_cache_read"], t["claude_cost_usd"], t["codex_in"], t["codex_out"]))
+    print("tokens (input+output, cache reads excluded): claude=%d codex=%d" % (s["claude_tokens"], s["codex_tokens"]))
+    if s["codex_share"] is not None:
+        print("share: codex %.1f%%  claude %.1f%%" % (s["codex_share"] * 100, s["claude_share"] * 100))
+    print("claude cache reads (separate): %d" % t["claude_cache_read"])
+    return s
+
+
 def main():
     ap = argparse.ArgumentParser(description="Claude -> local PC / Codex bridge")
     ap.add_argument("--no-push", action="store_true", help="write job file only")
@@ -180,6 +242,8 @@ def main():
     p.add_argument("job_id", nargs="?")
     p = sub.add_parser("logs")
     p.add_argument("--flagged", action="store_true")
+    p = sub.add_parser("usage")
+    p.add_argument("--last", type=int)
     a = ap.parse_args()
 
     repo = repo_root()
@@ -190,6 +254,9 @@ def main():
         return cmd_status(repo, a.job_id)
     if a.cmd == "logs":
         return cmd_logs(repo, a.flagged)
+    if a.cmd == "usage":
+        cmd_usage(repo, a.last)
+        return
     if a.cmd == "wait":
         job = wait(repo, branch, a.job_id, a.timeout)
         return show(job) if job else sys.exit(1)

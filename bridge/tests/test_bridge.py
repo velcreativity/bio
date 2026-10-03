@@ -14,6 +14,7 @@ BRIDGE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, BRIDGE)
 
 import audit  # noqa: E402
+import claude_bridge as bridge_cli  # noqa: E402
 import jobqueue as jq  # noqa: E402
 import local_agent  # noqa: E402
 import supervisor  # noqa: E402
@@ -36,7 +37,7 @@ FAKE_CODEX = textwrap.dedent(r'''
         {"type": "item.completed", "item": {"type": "command_execution", "command": "bash -lc 'pytest -q'", "exit_code": 0}},
         {"type": "item.completed", "item": {"type": "file_change", "changes": [{"path": "calc.py", "kind": "update"}]}},
         {"type": "item.completed", "item": {"type": "agent_message", "text": "done: " + prompt.strip()[:40]}},
-        {"type": "turn.completed", "usage": {"input_tokens": 1}},
+        {"type": "turn.completed", "usage": {"input_tokens": 5000, "cached_input_tokens": 1000, "output_tokens": 800}},
     ]:
         print(json.dumps(ev))
     open(last, "w").write("done")
@@ -47,6 +48,7 @@ FAKE_CLAUDE = textwrap.dedent(r'''
     args = sys.argv[1:]
     stdin = sys.stdin.read()
     log = os.environ["FAKE_CLAUDE_LOG"]
+    USAGE = {"input_tokens": 1000, "output_tokens": 200, "cache_read_input_tokens": 500}
     with open(log, "a") as f:
         f.write(json.dumps({"model": args[args.index("--model") + 1], "effort": args[args.index("--effort") + 1],
                             "mode": "review" if "--json-schema" in args else "fix"}) + "\n")
@@ -55,11 +57,12 @@ FAKE_CLAUDE = textwrap.dedent(r'''
         decision = "FIX" if n == 1 else "APPROVE"
         out = {"decision": decision, "summary": "s%d" % n, "issues": ["missing test"] if decision == "FIX" else [],
                "fix_instructions": "add a test for add()" if decision == "FIX" else ""}
-        print(json.dumps({"type": "result", "result": "", "structured_output": out, "total_cost_usd": 0.01}))
+        print(json.dumps({"type": "result", "result": "", "structured_output": out, "total_cost_usd": 0.01,
+                          "usage": USAGE}))
     else:
         with open("test_calc.py", "w") as f:
             f.write("def test_add():\n    assert 1 + 1 == 2\n")
-        print(json.dumps({"type": "result", "result": "added test_calc.py"}))
+        print(json.dumps({"type": "result", "result": "added test_calc.py", "total_cost_usd": 0.01, "usage": USAGE}))
 ''')
 
 
@@ -147,6 +150,48 @@ class DecideCodingTests(unittest.TestCase):
         self.assertEqual(supervisor.decide_coding(cfg, [], "x", "general"), (False, "kind"))
 
 
+class UsageTests(unittest.TestCase):
+    def test_add_claude_usage(self):
+        acc = {}
+        supervisor.add_claude_usage(acc, {"usage": {"input_tokens": 10, "output_tokens": 2,
+                                                     "cache_read_input_tokens": 5}, "total_cost_usd": 0.5})
+        supervisor.add_claude_usage(acc, {"result": "no usage"})
+        supervisor.add_claude_usage(acc, ["not", "a", "dict"])
+        self.assertEqual(acc, {"calls": 3, "input_tokens": 10, "output_tokens": 2, "cache_read_input_tokens": 5,
+                               "cache_creation_input_tokens": 0, "cost_usd": 0.5})
+
+    def test_codex_usage(self):
+        ev = "\n".join(json.dumps(e) for e in (
+            {"type": "turn.completed", "usage": {"input_tokens": 3, "cached_input_tokens": 1, "output_tokens": 2}},
+            {"type": "turn.completed", "usage": {"input_tokens": 4, "reasoning_output_tokens": 7}},
+            {"type": "turn.completed", "usage": "weird"},
+            {"type": "item.completed", "usage": {"input_tokens": 99}},
+        )) + "\nnot json\n"
+        self.assertEqual(local_agent.codex_usage(ev), {"turns": 3, "input_tokens": 7, "cached_input_tokens": 1,
+                                                         "output_tokens": 2, "reasoning_output_tokens": 7})
+        self.assertEqual(local_agent.codex_usage("")["turns"], 0)
+
+    def test_default_fixer_is_codex(self):
+        self.assertEqual(local_agent.DEFAULT_CONFIG["review"]["fixer"], "codex")
+
+    def test_summarize_usage(self):
+        jobs = [
+            {"id": "a", "type": "codex.exec", "result": {"usage": {
+                "claude": {"calls": 2, "input_tokens": 100, "output_tokens": 20, "cache_read_input_tokens": 50,
+                           "cost_usd": 0.02},
+                "codex": {"input_tokens": 700, "output_tokens": 180}}}},
+            {"id": "b", "type": "codex.fix", "result": {}},
+            {"id": "c", "type": "codex.fix", "result": {"usage": {"claude": {}, "codex": {"input_tokens": 100}}}},
+        ]
+        s = bridge_cli.summarize_usage(jobs)
+        self.assertEqual([r["id"] for r in s["rows"]], ["a", "c"])
+        self.assertEqual(s["totals"]["claude_in"], 100)
+        self.assertEqual(s["totals"]["codex_in"], 800)
+        self.assertEqual((s["claude_tokens"], s["codex_tokens"]), (120, 980))
+        self.assertAlmostEqual(s["codex_share"], 980 / 1100)
+        self.assertIsNone(bridge_cli.summarize_usage([])["codex_share"])
+
+
 class EndToEnd(unittest.TestCase):
     def setUp(self):
         self.tmp = tempfile.mkdtemp()
@@ -214,6 +259,7 @@ class EndToEnd(unittest.TestCase):
         return job
 
     def test_codex_review_fix_apply(self):
+        self.agent.cfg["review"]["fixer"] = "claude"
         jid = self.cloud_submit(jq.make_job("codex.exec", {"project": "proj", "prompt": "add a sub() function"}))
         self.agent.run_once()
         job = self.cloud_result(jid)
@@ -228,6 +274,11 @@ class EndToEnd(unittest.TestCase):
         with open(self.claude_log) as f:
             calls = [json.loads(l) for l in f]
         self.assertEqual([c["mode"] for c in calls], ["review", "fix", "review"])
+        self.assertEqual(r["usage"]["claude"]["calls"], 3)
+        self.assertEqual(r["usage"]["claude"]["input_tokens"], 3000)
+        self.assertEqual(r["usage"]["claude"]["cache_read_input_tokens"], 1500)
+        self.assertEqual(r["usage"]["codex"]["input_tokens"], 5000)
+        self.assertEqual(r["usage"]["codex"]["turns"], 1)
         self.assertTrue(all(c["model"] == "claude-sonnet-5-5" and c["effort"] == "high" for c in calls))
         reports = os.listdir(os.path.join(self.cloud, "bridge", "reports", jid))
         for name in ("events.jsonl", "diff.patch", "audit.json", "review_0.json", "fix_1.json", "review_1.json"):
@@ -243,6 +294,19 @@ class EndToEnd(unittest.TestCase):
         with open(os.path.join(self.proj, "calc.py")) as f:
             self.assertIn("codex", f.read())
         self.assertTrue(os.path.exists(os.path.join(self.proj, "test_calc.py")))
+
+    def test_codex_is_default_fixer(self):
+        jid = self.cloud_submit(jq.make_job("codex.exec", {"project": "proj", "prompt": "add a sub() function"}))
+        self.agent.run_once()
+        r = self.cloud_result(jid)["result"]
+        self.assertEqual(r["state"], "approved")
+        self.assertEqual(r["fix_rounds"], 1)
+        with open(self.claude_log) as f:
+            calls = [json.loads(l) for l in f]
+        self.assertEqual([c["mode"] for c in calls], ["review", "review"])
+        self.assertEqual(r["usage"]["claude"]["calls"], 2)
+        self.assertEqual(r["usage"]["codex"]["turns"], 2)  # initial run + resumed fix
+        self.assertEqual(r["usage"]["codex"]["input_tokens"], 10000)
 
     def test_harvest_redacts(self):
         self.agent.run_once()

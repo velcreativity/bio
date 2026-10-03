@@ -45,7 +45,7 @@ DEFAULT_CONFIG = {
                          "--output-last-message", "{last_message_file}", "resume", "{session_id}", "-"],
     "claude_cmd": ["claude"],
     "models": dict(supervisor.DEFAULT_MODELS),
-    "review": {"enabled": True, "max_fix_rounds": 2, "fixer": "claude", "auto_apply": False},
+    "review": {"enabled": True, "max_fix_rounds": 2, "fixer": "codex", "auto_apply": False},
     "harvest": {"enabled": True, "sessions_dir": "~/.codex/sessions", "interval_sec": 600},
     "shell": {"enabled": False, "allow": ["git", "python", "py", "pytest", "npm", "node"]},
 }
@@ -85,6 +85,35 @@ def _cap(text, limit):
         return text
     head = limit // 4
     return text[:head] + "\n...[TRUNCATED %d chars]...\n" % (len(text) - limit) + text[-(limit - head):]
+
+
+CODEX_USAGE_KEYS = ("input_tokens", "cached_input_tokens", "output_tokens", "reasoning_output_tokens")
+
+
+def codex_usage(events_text):
+    """Sum the token usage of every `turn.completed` event in a Codex --json event stream."""
+    out = {"turns": 0}
+    out.update((k, 0) for k in CODEX_USAGE_KEYS)
+    for rec in audit.parse_jsonl(events_text or ""):
+        if not isinstance(rec, dict) or rec.get("type") != "turn.completed":
+            continue
+        out["turns"] += 1
+        usage = rec.get("usage")
+        if isinstance(usage, dict):
+            for k in CODEX_USAGE_KEYS:
+                v = usage.get(k)
+                if isinstance(v, (int, float)) and not isinstance(v, bool):
+                    out[k] += v
+    return out
+
+
+def _add_codex_usage(acc, events_text):
+    for k, v in codex_usage(events_text).items():
+        acc[k] = acc.get(k, 0) + v
+
+
+def _new_usage():
+    return {"claude": {}, "codex": codex_usage("")}
 
 
 class Agent:
@@ -285,8 +314,9 @@ class Agent:
     def _supervise(self, job_id, ctx, timeout, start_round=0):
         """Review -> fix loop on a worktree. Mutates and returns ctx."""
         rv = self.cfg["review"]
+        usage = ctx.setdefault("usage", _new_usage())
         coding, ctx["coding_source"] = supervisor.decide_coding(
-            self.cfg, ctx["audit"]["changed_paths"], ctx["task"], ctx.get("kind"))
+            self.cfg, ctx["audit"]["changed_paths"], ctx["task"], ctx.get("kind"), usage=usage["claude"])
         ctx["coding"] = coding
         ctx["model"], ctx["effort"] = supervisor.pick_model(self.cfg.get("models"), coding)
         if not rv.get("enabled"):
@@ -295,18 +325,20 @@ class Agent:
         rnd = start_round
         while True:
             rev = supervisor.review(self.cfg, ctx["task"], ctx["audit"], ctx["diff"],
-                                    ctx.get("last_message", ""), coding)
+                                    ctx.get("last_message", ""), coding, usage=usage["claude"])
             self.write_report(job_id, "review_%d.json" % rnd, rev)
             ctx["review"] = {k: rev.get(k) for k in ("decision", "summary", "issues", "model", "effort")}
             if rev["decision"] != "FIX" or rnd - start_round >= rv.get("max_fix_rounds", 2):
                 break
             rnd += 1
-            if rv.get("fixer", "claude") == "claude":
-                fx = supervisor.fix_with_claude(self.cfg, ctx["worktree"], ctx["task"], rev, coding, timeout)
+            if rv.get("fixer", "codex") == "claude":
+                fx = supervisor.fix_with_claude(self.cfg, ctx["worktree"], ctx["task"], rev, coding, timeout,
+                                                usage=usage["claude"])
                 extra = ""
             else:
                 fx = self.run_codex(rev["fix_instructions"], ctx["worktree"], timeout, ctx.get("session_id"))
                 extra = fx.pop("events")
+                _add_codex_usage(usage["codex"], extra)
                 ctx["events"] += "\n" + extra
                 ctx["last_message"] = fx.get("last_message", "")
             self.write_report(job_id, "fix_%d.json" % rnd, fx)
@@ -326,7 +358,8 @@ class Agent:
 
     def _result(self, job_id, ctx):
         out = {k: ctx.get(k) for k in ("project", "branch", "worktree", "base", "session_id", "state",
-                                       "coding", "coding_source", "model", "effort", "fix_rounds", "review")}
+                                       "coding", "coding_source", "model", "effort", "fix_rounds", "review",
+                                       "usage")}
         out["head"] = jq.git(ctx["worktree"], "rev-parse", "HEAD").stdout.strip()
         out["audit_verdict"] = ctx["audit"]["verdict"]
         out["audit_findings"] = ctx["audit"]["findings"][:30]
@@ -353,9 +386,11 @@ class Agent:
         if run["stderr"].strip():
             self.write_report(job_id, "codex_stderr.txt", run["stderr"][-20000:])
         diff, rep = self._assess(job_id, wt, base, run["events"], 0)
+        usage = _new_usage()
+        _add_codex_usage(usage["codex"], run["events"])
         ctx = {"project": project, "branch": branch, "worktree": wt, "base": base, "task": a["prompt"],
                "kind": a.get("kind"), "events": run["events"], "last_message": run["last_message"],
-               "session_id": run["session_id"], "diff": diff, "audit": rep}
+               "session_id": run["session_id"], "diff": diff, "audit": rep, "usage": usage}
         self.write_report(job_id, "codex_last_message.md", run["last_message"] or "")
         if run["returncode"] != 0:
             ctx.update(state="codex_failed", review=None, fix_rounds=0)
@@ -375,23 +410,26 @@ class Agent:
         if not os.path.isdir(wt):
             raise ValueError("worktree gone (applied or discarded): " + wt)
         task = prev["args"]["prompt"]
+        usage = _new_usage()
         coding, coding_source = supervisor.decide_coding(
-            self.cfg, r.get("changed_paths", []), task, prev["args"].get("kind"))
-        fixer = a.get("fixer", self.cfg["review"].get("fixer", "claude"))
+            self.cfg, r.get("changed_paths", []), task, prev["args"].get("kind"), usage=usage["claude"])
+        fixer = a.get("fixer", self.cfg["review"].get("fixer", "codex"))
         review_like = {"decision": "FIX", "summary": "cloud review", "issues": a.get("issues", []),
                        "fix_instructions": a["instructions"]}
         events = ""
         if fixer == "claude":
-            fx = supervisor.fix_with_claude(self.cfg, wt, task, review_like, coding, timeout)
+            fx = supervisor.fix_with_claude(self.cfg, wt, task, review_like, coding, timeout,
+                                            usage=usage["claude"])
         else:
             fx = self.run_codex(a["instructions"], wt, timeout, r.get("session_id"))
             events = fx.pop("events")
+            _add_codex_usage(usage["codex"], events)
         self.write_report(job_id, "fix.json", fx)
         self._commit_worktree(wt, "bridge: cloud fix %s for %s" % (job_id, a["job_id"]))
         diff, rep = self._assess(job_id, wt, base, events, 0)
         ctx = {"project": r["project"], "branch": r["branch"], "worktree": wt, "base": base, "task": task,
                "kind": prev["args"].get("kind"), "events": events, "last_message": fx.get("last_message", ""),
-               "session_id": r.get("session_id"), "diff": diff, "audit": rep}
+               "session_id": r.get("session_id"), "diff": diff, "audit": rep, "usage": usage}
         if a.get("rereview", True):
             self._supervise(job_id, ctx, timeout)
         else:

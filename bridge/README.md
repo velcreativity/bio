@@ -57,7 +57,8 @@ Codex가 한 모든 작업을 **검토·검열한 뒤 수정·보완**해서 승
 3. `bridge/config.example.json`을 `bridge/config.json`으로 복사한 뒤 수정한다.
    - `branch`: 클라우드 Claude와 같은 브랜치
    - `projects`: Codex가 작업할 수 있는 **git 프로젝트** 목록(이름 → 경로). 목록에 없는 곳은 거부한다.
-   - `review.fixer`: `claude`(Claude가 직접 수정) 또는 `codex`(검토 지시로 Codex 세션을 재개해 수정)
+   - `review.fixer`: 기본 `codex`(Claude는 수정 지시만, Codex 세션을 재개해 수정 → Claude 토큰 절약).
+     `claude`로 바꾸면 Claude가 worktree를 직접 수정(정확하지만 Claude 토큰 소모 큼)
    - `review.auto_apply`: `true`이면 "검토 APPROVE + 감사 PASS"일 때 자동 병합한다. 기본값은 수동 승인.
 4. Codex CLI 버전에 따라 플래그가 다를 수 있으므로 `codex exec --help`로 확인한 뒤
    `codex_exec_cmd`/`codex_resume_cmd` 템플릿을 맞춘다(기본값은 `--json`, `--full-auto`,
@@ -79,6 +80,7 @@ python bridge/claude_bridge.py discard <job_id> --reason "방향 틀림"
 python bridge/claude_bridge.py hancom page_count --src 품질실적모음_2026년.hwpx --wait
 python bridge/claude_bridge.py logs --flagged         # 사람이 직접 돌린 Codex 세션까지 전 프로젝트 감사
 python bridge/claude_bridge.py status
+python bridge/claude_bridge.py usage --last 20       # 작업별 Claude vs Codex 토큰 사용량·비율
 ```
 
 ### Codex 작업 생명주기

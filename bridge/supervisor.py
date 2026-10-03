@@ -154,6 +154,24 @@ def _parse_claude_json(stdout):
     return None, env
 
 
+CLAUDE_USAGE_KEYS = ("input_tokens", "output_tokens", "cache_read_input_tokens", "cache_creation_input_tokens")
+
+
+def _num(v):
+    return v if isinstance(v, (int, float)) and not isinstance(v, bool) else 0
+
+
+def add_claude_usage(acc, env):
+    """Add one `claude -p --output-format json` envelope's token usage and cost to the accumulator dict."""
+    acc["calls"] = acc.get("calls", 0) + 1
+    usage = env.get("usage") if isinstance(env, dict) else None
+    usage = usage if isinstance(usage, dict) else {}
+    for k in CLAUDE_USAGE_KEYS:
+        acc[k] = acc.get(k, 0) + _num(usage.get(k))
+    acc["cost_usd"] = acc.get("cost_usd", 0) + _num(env.get("total_cost_usd") if isinstance(env, dict) else None)
+    return acc
+
+
 # ----------------------------------------------------------------- classify
 # The user cannot phrase requests in technical terms, so Claude (not keywords) judges whether a task is coding.
 
@@ -178,7 +196,7 @@ reason에는 판단 근거를 한 문장으로 적어라. 결과는 JSON 스키�
 """
 
 
-def classify_with_claude(cfg, prompt, timeout=600):
+def classify_with_claude(cfg, prompt, timeout=600, usage=None):
     """Ask Claude whether the request needs program code. Returns (bool|None, reason); None on any failure."""
     model, effort = pick_model(cfg.get("models"), False)
     cmd = _claude_cmd(cfg) + [
@@ -193,13 +211,15 @@ def classify_with_claude(cfg, prompt, timeout=600):
                            text=True, encoding="utf-8", errors="replace", timeout=timeout)
     except (OSError, subprocess.TimeoutExpired) as e:
         return None, "%s: %s" % (type(e).__name__, e)
-    parsed, _ = _parse_claude_json(p.stdout)
+    parsed, env = _parse_claude_json(p.stdout)
+    if isinstance(usage, dict):
+        add_claude_usage(usage, env)
     if p.returncode != 0 or not isinstance(parsed, dict) or not isinstance(parsed.get("coding"), bool):
         return None, "claude classify failed (returncode=%s)" % p.returncode
     return parsed["coding"], str(parsed.get("reason") or "")
 
 
-def decide_coding(cfg, paths=(), prompt="", kind=None):
+def decide_coding(cfg, paths=(), prompt="", kind=None, usage=None):
     """Like is_coding, but an ambiguous request (no kind, no changed paths) is judged by Claude.
     Returns (coding, source) with source in kind | paths | claude: <reason> | keywords."""
     by_kind = _kind_coding(kind)
@@ -208,13 +228,13 @@ def decide_coding(cfg, paths=(), prompt="", kind=None):
     paths = list(paths)
     if paths:
         return _paths_coding(paths), "paths"
-    coding, reason = classify_with_claude(cfg, prompt)
+    coding, reason = classify_with_claude(cfg, prompt, usage=usage)
     if coding is not None:
         return coding, "claude: " + reason
     return _keywords_coding(prompt), "keywords"
 
 
-def review(cfg, task, audit_report, diff, last_message, coding, timeout=1800):
+def review(cfg, task, audit_report, diff, last_message, coding, timeout=1800, usage=None):
     model, effort = pick_model(cfg.get("models"), coding)
     max_diff = int(cfg.get("review_max_diff_chars", 120000))
     note = "full" if len(diff) <= max_diff else "truncated to %d of %d chars" % (max_diff, len(diff))
@@ -236,6 +256,8 @@ def review(cfg, task, audit_report, diff, last_message, coding, timeout=1800):
     p = subprocess.run(cmd, input=prompt, capture_output=True, text=True,
                        encoding="utf-8", errors="replace", timeout=timeout)
     parsed, env = _parse_claude_json(p.stdout)
+    if isinstance(usage, dict):
+        add_claude_usage(usage, env)
     if p.returncode != 0 or not parsed or parsed.get("decision") not in ("APPROVE", "FIX", "REJECT"):
         return {"decision": "ERROR", "model": model, "effort": effort, "returncode": p.returncode,
                 "stderr": (p.stderr or "")[-2000:], "raw": (p.stdout or "")[-2000:]}
@@ -244,7 +266,7 @@ def review(cfg, task, audit_report, diff, last_message, coding, timeout=1800):
     return parsed
 
 
-def fix_with_claude(cfg, worktree, task, review_result, coding, timeout=3600):
+def fix_with_claude(cfg, worktree, task, review_result, coding, timeout=3600, usage=None):
     """Claude edits the Codex worktree directly. Returns run info."""
     model, effort = pick_model(cfg.get("models"), coding)
     prompt = FIX_PROMPT.format(task=task, review=json.dumps(review_result, ensure_ascii=False, indent=1))
@@ -260,6 +282,8 @@ def fix_with_claude(cfg, worktree, task, review_result, coding, timeout=3600):
     p = subprocess.run(cmd, input=prompt, cwd=worktree, capture_output=True, text=True,
                        encoding="utf-8", errors="replace", timeout=timeout)
     _, env = _parse_claude_json(p.stdout)
+    if isinstance(usage, dict):
+        add_claude_usage(usage, env)
     return {"fixer": "claude", "model": model, "effort": effort, "returncode": p.returncode,
             "result": ((env.get("result") or "") if isinstance(env, dict) else str(env))[-4000:],
             "stderr": (p.stderr or "")[-2000:]}

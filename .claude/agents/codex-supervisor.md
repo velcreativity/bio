@@ -11,7 +11,8 @@ You supervise Codex. For a bridge job: run `python bridge/claude_bridge.py revie
 Then decide exactly one:
 - APPROVE → `python bridge/claude_bridge.py apply <job_id> --wait`
 - FIX → `python bridge/claude_bridge.py fix <job_id> "<specific, file-level instructions>" --wait`, then review again
-  (use `--fixer claude` for code: Sonnet 5.5 high fixes it; `--fixer codex` to make Codex fix its own work)
+  (default: Codex fixes its own work from your instructions — cheapest for Claude. Use `--fixer claude` only when
+  Codex failed the same fix twice; then Sonnet 5.5 high fixes it directly)
 - REJECT → `python bridge/claude_bridge.py discard <job_id> --reason "<why>"`
 Never approve a BLOCK audit verdict without a written override reason. Base every issue on evidence in the
 report; no guessed problems. For all Codex history across projects use `python bridge/claude_bridge.py logs --flagged`.
