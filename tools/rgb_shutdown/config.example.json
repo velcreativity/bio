@@ -1,0 +1,17 @@
+{
+  "target_rgb": [255, 0, 0],
+  "tolerance": 10,
+  "min_pixels": 50,
+  "region": null,
+  "interval_sec": 0.5,
+  "consecutive_hits": 3,
+  "countdown_sec": 10,
+  "cooldown_sec": 30,
+  "action": "test",
+  "switchbot": {
+    "token": "",
+    "secret": "",
+    "device_id": ""
+  },
+  "save_evidence": true
+}

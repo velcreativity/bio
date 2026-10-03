@@ -13,3 +13,8 @@ __pycache__/
 
 # bridge: local agent config stays on the PC
 bridge/config.json
+
+# rgb_shutdown: config holds SwitchBot secret; evidence/logs are local
+tools/rgb_shutdown/config.json
+tools/rgb_shutdown/evidence/
+tools/rgb_shutdown/*.log
