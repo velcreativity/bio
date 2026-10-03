@@ -22,13 +22,23 @@ CODE_EXT = {
     ".svelte", ".lua", ".r", ".dart", ".toml", ".yaml", ".yml", ".gradle", ".ipynb",
 }
 CODE_WORDS = re.compile(
-    r"(?i)\b(code|coding|bug|refactor|test|function|class|script|api|build|compile|deploy|"
-    r"lint|python|javascript|typescript)\b|코드|코딩|버그|리팩터|테스트|함수|스크립트|빌드|배포"
+    r"(?i)(?<![a-z])(code|coding|bug|refactor|test|function|class|api|build|compile|deploy|"
+    r"lint|python|javascript|typescript|ffmpeg)(?![a-z])|"
+    r"코드|코딩|버그|리팩터|테스트|함수|빌드|배포|파이썬|프로그램"
+)
+# Content/planning work. "script"/"스크립트" are deliberately NOT code words: in video work they mean a screenplay.
+GENERAL_WORDS = re.compile(
+    r"(?i)(?<![a-z])(storyboard|screenplay|narration|copywriting)(?![a-z])|"
+    r"대본|콘티|스토리보드|시나리오|나레이션|내레이션|기획|카피|자막 문구|프롬프트 작성"
+)
+# When content words are present, only these unambiguous words still route to coding.
+STRONG_CODE_WORDS = re.compile(
+    r"(?i)(?<![a-z])(python|ffmpeg|api)(?![a-z])|코드|코딩|파이썬|함수|버그|리팩터|프로그램"
 )
 
 
 def is_coding(paths=(), prompt="", kind=None):
-    """kind ('code'|'general') wins; else changed paths; else prompt keywords."""
+    """kind ('code'|'general') wins; else changed paths; else prompt keywords (default: general)."""
     if kind in ("code", "coding"):
         return True
     if kind == "general":
@@ -37,7 +47,10 @@ def is_coding(paths=(), prompt="", kind=None):
     if paths:
         code = sum(1 for p in paths if os.path.splitext(p)[1].lower() in CODE_EXT)
         return code * 2 >= len(paths)
-    return bool(CODE_WORDS.search(prompt or ""))
+    prompt = prompt or ""
+    if GENERAL_WORDS.search(prompt):
+        return bool(STRONG_CODE_WORDS.search(prompt))
+    return bool(CODE_WORDS.search(prompt))
 
 
 def pick_model(models, coding):

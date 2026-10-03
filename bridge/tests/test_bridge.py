@@ -101,6 +101,12 @@ class AuditTests(unittest.TestCase):
                          ("claude-opus-5-5", "high"))
         self.assertTrue(supervisor.is_coding([], "이 함수의 버그를 고쳐줘"))
         self.assertFalse(supervisor.is_coding([], "2026 경영검토서 날짜를 정리해줘"))
+        # content/video work: "script" means screenplay, not code
+        self.assertFalse(supervisor.is_coding([], "영상 스크립트 써줘"))
+        self.assertFalse(supervisor.is_coding([], "홍보영상 대본과 콘티 짜줘"))
+        self.assertFalse(supervisor.is_coding([], "Runway에 넣을 프롬프트 작성해줘"))
+        self.assertTrue(supervisor.is_coding([], "ffmpeg로 클립 합치는 파이썬 코드 작성해줘"))
+        self.assertTrue(supervisor.is_coding([], "대본 기반으로 Runway API 호출 코드 작성"))
 
 
 class EndToEnd(unittest.TestCase):
