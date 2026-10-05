@@ -1,0 +1,119 @@
+{
+  "analysis_policy": "analyst_policy_v7",
+  "external_crawler": "v6_evidence_archive",
+  "latest_feed": {
+    "date": "2026-10-04",
+    "retained": 232,
+    "selected": 128,
+    "include": 13,
+    "exclude": 7,
+    "review": 212
+  },
+  "coverage": {
+    "loud": {
+      "status": "paused_by_user",
+      "attempted": false
+    },
+    "linkareer": {
+      "status": "partial",
+      "listing_pages": 10,
+      "known_urls": 206,
+      "details_checked": 40,
+      "pending": 166,
+      "incomplete": 3
+    },
+    "instagram_google": {
+      "status": "blocked",
+      "attempts": 8,
+      "success": 0
+    },
+    "wevity": "excluded"
+  },
+  "buddhist_paper_case": {
+    "title": "2026년 템플스테이·사찰음식·불교문화콘텐츠 논문 공모전",
+    "official": "https://www.kbuddhism.com/notice?bo_id=notice&page=1&wr_id=697",
+    "support": "https://linkareer.com/activity/320929",
+    "deadline": "2026-10-16",
+    "total_cash_krw": 18000000,
+    "eligibility": "general public included; individual or team up to 4",
+    "ai_policy": "AI is a research-topic example; generative-AI writing permission is not established",
+    "status": "raw_retained_review_not_strict_creative",
+    "omission_causes": [
+      "linkareer_page_and_detail_caps",
+      "older_may_item_not_in_revisit_budget",
+      "missing_buddhist_academic_official_seed",
+      "missing_paper_academic_buddhist_discovery_keywords",
+      "discovery_too_close_to_strict_filter"
+    ],
+    "applied_fix": [
+      "add_pre_filter_academic_religion_discovery_lane",
+      "search_religious_and_academic_official_sites",
+      "retain_academic_records_in_raw",
+      "separate_ai_topic_from_ai_tool_permission"
+    ]
+  },
+  "additional_academic_discovery": [
+    {
+      "title": "2026년 재난·안전 논문 공모전",
+      "deadline": "2026-11-10",
+      "status": "raw_only_noncreative"
+    },
+    {
+      "title": "제11회 무역기술장벽(TBT) 논문공모전",
+      "application_deadline": "2026-10-23",
+      "paper_deadline": "2026-10-31",
+      "status": "raw_only_noncreative"
+    },
+    {
+      "title": "제18회 2026 ICT 논문 공모 대제전",
+      "deadline": "2026-10-16",
+      "status": "raw_only_student_academic"
+    },
+    {
+      "title": "2026 ISTANS 논문경진대회",
+      "deadline": "2026-11-22",
+      "status": "raw_only_noncreative"
+    },
+    {
+      "title": "AI와 신학 논문 공모전",
+      "deadline": "2026-12-31",
+      "ai_policy": "generative AI allowed with disclosure",
+      "status": "raw_only_academic"
+    }
+  ],
+  "new_strict": [
+    {
+      "title": "2026 간단요리사 미식대전",
+      "deadline": "2026-11-03 17:00",
+      "cash_krw": 10000000,
+      "ai": "allowed_not_required",
+      "official": "https://www.29sfilm.com/serviceCenter/notice_view.php?seq=7088"
+    },
+    {
+      "title": "제15회 도로경관디자인 대전 - AI 활용",
+      "deadline": "2026-10-29 18:00",
+      "overall_cash_krw": 22400000,
+      "ai": "generative_ai_allowed",
+      "official": "https://www.ex-contest.co.kr/design26"
+    }
+  ],
+  "counts": {
+    "records_before": 203,
+    "records_after": 214,
+    "query_before": 76,
+    "query_after": 78,
+    "new_records": 11,
+    "new_strict": 2,
+    "new_review": 2,
+    "new_excluded_or_closed": 7
+  },
+  "persistence": {
+    "db_updated": false,
+    "crawler_deployed": false,
+    "server_deployed": false,
+    "library_upload": "failed_container_session_unavailable",
+    "github_repo": "velcreativity/bio",
+    "github_branch": "claude/charming-einstein-ds96tj",
+    "github_folder": "inbox/"
+  }
+}
