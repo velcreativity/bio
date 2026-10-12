@@ -46,5 +46,23 @@
     "https://kssefair.kr/recruit/list?mode=view&idx=9",
     "https://linkareer.com/activity/355732",
     "https://thinkyou.co.kr/mobile/contest/67321/"
-  ]
+  ],
+  "prize_correction": {
+    "title": "롯데몰 벨리타운 청량리 AI 뮤직 공모전",
+    "source_url": "https://linkareer.com/activity/354688",
+    "total_promoted_krw_gift_certificate": 5000000,
+    "verified_tier_sum_krw_gift_certificate": 4900000,
+    "tiers_krw": [
+      3000000,
+      1000000,
+      500000,
+      200000,
+      200000
+    ],
+    "unexplained_gap_krw": 100000,
+    "additional_participation_reward": "L.POINT 5,000P 선착순 500명, 별도",
+    "cash_prize_krw": 0,
+    "change_type": "existing_analyst_data_correction_not_verified_host_rule_change",
+    "status": "conflict_unresolved"
+  }
 }
