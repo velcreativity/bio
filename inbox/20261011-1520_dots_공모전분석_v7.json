@@ -1,0 +1,50 @@
+{
+  "analyst_policy": "analyst_policy_v7",
+  "date": "2026-10-11",
+  "crawler": {
+    "version": "v6_evidence_archive",
+    "message_id": "1a129a2634de000d",
+    "captured_at": "2026-10-11T06:20:12.587588+00:00",
+    "retained": 337,
+    "selected": 311,
+    "linkareer_pending": 271,
+    "linkareer_incomplete": 12,
+    "linkareer_pages": 10,
+    "loud": "paused_by_user",
+    "instagram_google": "8 attempts all access errors"
+  },
+  "normalized_update": {
+    "title": "제8회 대한민국 사회연대경제박람회 사진공모전 — 사진·스토리",
+    "verdict": "review",
+    "official_url": "https://kssefair.kr/recruit/list?mode=view&idx=9",
+    "secondary_updated": "https://linkareer.com/activity/355732",
+    "source_early": "https://linkareer.com/activity/352225",
+    "date_conflict": {
+      "official": "2026-10-11 + 모집마감",
+      "other_sources": "2026-10-25 + 접수기간연장 표기",
+      "resolution": "unverified_host_extension"
+    },
+    "ai_policy": "unconfirmed; photo original required; AI topic ≠ production permission",
+    "cash_prize_krw": 1800000,
+    "open_status": "conflicting"
+  },
+  "analysis_counts": {
+    "baseline_normalized": 248,
+    "current_normalized": 249,
+    "strict_historical": 91,
+    "new_strict": 0,
+    "new_review": 1
+  },
+  "verification": "official and Linkareer/ThinkContest page read; portal conflict retained",
+  "limitations": {
+    "full_original_bytes_persisted": false,
+    "db_updated": false,
+    "crawler_deployed": false,
+    "server_deployed": false
+  },
+  "sources": [
+    "https://kssefair.kr/recruit/list?mode=view&idx=9",
+    "https://linkareer.com/activity/355732",
+    "https://thinkyou.co.kr/mobile/contest/67321/"
+  ]
+}
