@@ -1,0 +1,118 @@
+{
+  "analyst_policy_version": "analyst_policy_v7",
+  "as_of_kst": "2026-10-15T10:03:11+09:00",
+  "crawler_version": "v6_evidence_archive",
+  "mail": {
+    "id": "1a138dc86f5b238c",
+    "subject": "[LOUD_CRAWL_RESULT] 2026-10-14 v6 retained=416",
+    "captured_at_kst": "2026-10-14T14:18:03.952547+09:00",
+    "body_field": "empty",
+    "raw_mime_read": "success",
+    "mime_text_decoded_characters": 956162,
+    "attachments": 0
+  },
+  "crawl": {
+    "retained": 416,
+    "selected": 385,
+    "include": 38,
+    "exclude": 53,
+    "review": 325,
+    "loud": "paused_by_user/not_attempted",
+    "linkareer": {
+      "pages": 10,
+      "known": 364,
+      "detailed": 40,
+      "incomplete": 11,
+      "pending": 350,
+      "next_page": 11
+    },
+    "instagram_google": "8/8 HTTP/access error"
+  },
+  "storage": {
+    "gmail_decoded_feed_snapshot": {
+      "url": "https://github.com/velcreativity/bio/blob/claude/charming-einstein-ds96tj/inbox/20261015-0956_v6_20261014_gmail_feed_snapshot.md",
+      "commit": "dcb06e5a12d4c8f3d6cc80df688197db5c9c22ca"
+    },
+    "library_file_upload": "failed_container_session_unavailable",
+    "raw_rfc822_mime": "not_archived",
+    "full_site_html_pdf_hwp": "not_archived",
+    "db_updated": false,
+    "server_deployed": false,
+    "crawler_code_deployed": false
+  },
+  "baseline": {
+    "catalog_normalized": 263,
+    "cumulative_strict": 93,
+    "as_of": "2026-10-13"
+  },
+  "analyst": {
+    "normalized": 272,
+    "cumulative_strict": 95,
+    "new_normalized": 9,
+    "new_strict": 2,
+    "new_review": 4,
+    "new_excluded": 3,
+    "date_only_active_or_upcoming_unreverified": 78,
+    "date_expired_archived": 17
+  },
+  "meaningful_changes": [
+    {
+      "title": "2026년 제2회 AMT AI 작곡대회 — K-POP 챌린지",
+      "status": "new_qualified",
+      "submission_deadline": "2026-10-31 time unspecified",
+      "requirements": "SUNO paid plan, three stage songs, commercially usable K-pop AI song",
+      "prize": "cash=0; vouchers=590000 KRW",
+      "public_voting": "votes likes full play; weights provisional",
+      "primary_url": "https://www.aimusictown.com/community/notice/posts/announcement-9",
+      "support": "https://linkareer.com/activity/356125"
+    },
+    {
+      "title": "2026 대한민국 과일대전 숏폼 영상 공모전",
+      "status": "new_qualified",
+      "submission_deadline": "2026-11-13 time unspecified",
+      "requirements": "domestic fruit vertical shortform <3min; AI tools allowed with disclosure and prompts",
+      "prize": "cash=1600000 KRW overall",
+      "public_voting": "social engagement bonus, not necessarily vote",
+      "primary_url": "https://linkareer.com/activity/356768"
+    },
+    {
+      "title": "2026 경상북도 K-U시티 청년 AI영상제",
+      "status": "review_eligibility_conflict",
+      "submission_deadline": "2026-10-19 18:00",
+      "prize": "cash=10000000 KRW",
+      "reason": "organizer says youth vs platform says anyone",
+      "primary_url": "https://pf.kakao.com/_TxgxnVj/114767005",
+      "support": "https://linkareer.com/activity/356516"
+    },
+    {
+      "title": "2026 양양군 영상 공모전",
+      "status": "review_two_tracks",
+      "submission_deadline": "2026-11-12",
+      "prize": "cash=10000000 KRW combined",
+      "reason": "AI production allowance not verified",
+      "support": "https://linkareer.com/activity/356788"
+    },
+    {
+      "title": "2026 농어촌 기본소득 숏폼 공모전(10월)",
+      "status": "review",
+      "reason": "AI production allowance not verified",
+      "support": "https://linkareer.com/activity/356181"
+    },
+    {
+      "title": "2026 제천 숏폼 영상 공모전",
+      "status": "excluded",
+      "reason": "generative AI explicitly forbidden",
+      "support": "https://linkareer.com/activity/356778"
+    },
+    {
+      "title": "어구는 돌아오는거야! 영상·사진 공모전",
+      "status": "excluded_two_tracks",
+      "reason": "generative AI imagery prohibited",
+      "support": "https://linkareer.com/activity/356777"
+    }
+  ],
+  "excluded_sources": [
+    "Wevity"
+  ],
+  "note": "Gmail MIME decoded discovery feed snapshot is not original site HTML and is not full MIME raw source; analyst normalizations were created as local files but Library uploads failed."
+}
