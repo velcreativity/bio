@@ -1,0 +1,39 @@
+{
+  "analysis_policy_version": "analyst_policy_v7",
+  "external_crawler_version": "v6_evidence_archive",
+  "feed_captured_at": "2026-10-20T14:12:05+09:00",
+  "gmail_message_id": "1a157bd4a2bd1fe6",
+  "gmail_raw_mime_read": true,
+  "gmail_plain_body_field_empty": true,
+  "feed_decoded_utf8_chars": 1208297,
+  "feed_decoded_utf8_bytes": 1565771,
+  "gmail_attachments": 0,
+  "source_feed_retain_count": 536,
+  "source_feed_selected_count": 498,
+  "new_url_observations": 43,
+  "normalized_baseline": 331,
+  "normalized_now": 336,
+  "new_strict": 0,
+  "new_review": 3,
+  "new_excluded": 2,
+  "historical_cumulative_strict": 106,
+  "archive_to_GitHub": {
+    "source_feed_parts": 5,
+    "unfiltered_source_observation_delta": "inbox/20261021-1000_analyst_policy_v7_source_observation_delta.json",
+    "status": "committed"
+  },
+  "library": {
+    "path": "/contest_runs/20261021",
+    "initial_upload_files": 5,
+    "first_upload_status": "succeeded",
+    "post_upload_revision_attempt": "failed_container_session_unavailable",
+    "note": "Library manifest initial copy may say not_attempted_yet because storage confirmation was written later. Local final manifest has succeeded."
+  },
+  "original_site_html_pdf_hwp_archived": false,
+  "gmail_rfc822_saved_as_file": false,
+  "db_updated": false,
+  "crawler_code_deployed": false,
+  "server_deployed": false,
+  "schedule_changed": false,
+  "key_change": "Welchon official event schedule now 2026-11-01 versus prior 2026-10-18; contest remains review for AI policy. Green video contest incorrectly included by v6 though main description prohibits generative AI."
+}
